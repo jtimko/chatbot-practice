@@ -1,32 +1,31 @@
-async function content(formData: FormData) {
-  "use server";
+"use client";
 
-  const api = process.env.CHAT_API;
-
-  if (api && formData.get("content")) {
-    const data = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0',
-          'Authorization': `Bearer ${api}`,
-          'Content-Type': 'application/json',
-      },
-      body: '{"model": "gpt-3.5-turbo", "message":[{"role": "assistant", "content": "How do I say blue in spanish?"}]}'
-    }).then(d => console.log(d));
-  }
-}
+import { useState } from "react";
 
 export default function Home() {
+  const [answer, setAnswer] = useState<string>("");
+  const [response, setResponse] = useState<string>("");
+
+  async function chatgpt() {
+
+    console.log(JSON.stringify(response));
+    const data = await fetch(`http://localhost:3000/api/chat`, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: response
+      }),
+    }).then((res) => res.json()).then((data) => { console.log("some data: " + JSON.stringify(data)); setAnswer(data.gpt) });
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form action={content} method="post">
         <input
           type="text"
           name="content"
+          onChange={(e) => setResponse(e.target.value)}
           />
-        <button type="submit">Submit</button>
-      </form>
-     
+        <button onClick={() => chatgpt()}>Submit</button>
+     {answer && <p>{answer}</p>}
     </main>
   )
 }
