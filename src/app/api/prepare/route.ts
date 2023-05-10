@@ -14,10 +14,6 @@ export async function POST(req: Request) {
         role: "system",
         content: `You are an assistant that only speaks on the provided data: ${d1}`,
       },
-      {
-        role: "assistant",
-        content: `${data}`,
-      },
     ],
   };
 

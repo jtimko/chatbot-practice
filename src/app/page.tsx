@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [answer, setAnswer] = useState<string>("");
@@ -14,6 +14,18 @@ export default function Home() {
       }),
     }).then((res) => res.json()).then((data) => { setAnswer(data.gpt); });
   }
+
+  // useEffect(() => {
+  //   async function prepareChatGpt() {
+  //     const data = await fetch(`http://localhost:3000/api/prepare`, {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         data: "hello"
+  //       }),
+  //     }).then((res) => res.json()).then((data) => { console.log(data); });
+  //   }
+  //   prepareChatGpt();
+  // }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
