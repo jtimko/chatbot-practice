@@ -7,8 +7,7 @@ export default function Home() {
   const [response, setResponse] = useState<string>("");
 
   async function chatgpt() {
-    const server = process.env.NODE_ENV === "production" ? process.env.NODE_ENV_SITE : "http://localhost:3000";
-    const data = await fetch(`${server}/api/chat`, {
+    const data = await fetch(`/api/chat`, {
       method: 'POST',
       body: JSON.stringify({
         data: response
