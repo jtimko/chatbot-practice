@@ -7,25 +7,14 @@ export default function Home() {
   const [response, setResponse] = useState<string>("");
 
   async function chatgpt() {
-    const data = await fetch(`http://localhost:3000/api/chat`, {
+    const server = process.env.NODE_ENV === "production" ? process.env.NODE_ENV_SITE : "http://localhost:3000";
+    const data = await fetch(`${server}/api/chat`, {
       method: 'POST',
       body: JSON.stringify({
         data: response
       }),
     }).then((res) => res.json()).then((data) => { setAnswer(data.gpt); });
   }
-
-  // useEffect(() => {
-  //   async function prepareChatGpt() {
-  //     const data = await fetch(`http://localhost:3000/api/prepare`, {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         data: "hello"
-  //       }),
-  //     }).then((res) => res.json()).then((data) => { console.log(data); });
-  //   }
-  //   prepareChatGpt();
-  // }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
